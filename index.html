@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Song Searcher</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="images/spotify.ico">
+    <script src="https://kit.fontawesome.com/4328465e5b.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="images/logo.svg" alt="Spotify Logo">
+        <h1>Spotify Song Searcher</h1>
+    </header>
+    <div id="app">
+        <div id="searcher">
+            <h2>Title</h2>
+            <input type="text" id="title" placeholder="Introduce a title" v-model="busqueda">
+            <div id="search-clear-buttons">
+                <button id="search" @click="throwPetition(true)">Search</button>
+                <button id="clear" @click="clearResults()">Clear</button>
+            </div>
+        </div>
+        <div id="results">
+            <div class="song" v-for="song in tracks">
+                <img :src="song.album.images[0].url" alt="Song Image">
+                <div class="song--info">
+                    <h3>{{song.name}}</h3>
+                    <p>Artist: <span>{{song.artists[0].name}}</span></p>
+                    <p>Album: <span>>{{song.album.name}}</span></p>
+                    <p>Release: <span>{{song.album.release_date}}</span></p>
+                    <a :href="song.external_urls.spotify" target="_blank">Open in Spotify</a>
+                </div>
+                <div class="song--actions">
+                    <button class="playButton"><i class="fa-solid fa-play"></i></button>
+                    <audio>
+                        <source :src="song.preview_url" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="ajax.js"></script>
+</body>
+</html>
