@@ -18,12 +18,14 @@ const { createApp } = Vue
            "Content-Type":"application/json",
            Authorization:"Bearer " + this.access_token
         },
+
+        currentSong: undefined,
       }
     },
     methods: {
         throwPetition(scroll = false){
             var throwed = false;
-            if(!throwed){
+            if(!throwed && !scroll){
                 this.offset = 0;
                 throwed = true;
 
@@ -40,7 +42,8 @@ const { createApp } = Vue
                 this.offset += 20;
             }
 
-            if(scroll){
+            if(scroll && !throwed){
+                throwed = true;
                 axios({
                     method: 'get',
                     url: 'https://api.spotify.com/v1/search?q=' + this.busqueda + '&type=track&offset=' + this.offset,
@@ -60,26 +63,19 @@ const { createApp } = Vue
             this.busqueda = "";
         },
 
-        audioHandler(e){
-            var audio = e.target.parentElement.parentElement.getElementsByTagName("audio")[0];
-            if(e.target.classList.contains("fa-play")){
-                audio.volume = 0.2;
-                audio.play();
-
-                e.target.classList.remove("fa-play");
-                e.target.classList.add("fa-pause");
-
-                if(audio.ended){
-                    e.target.classList.remove("fa-play");
-                    e.target.classList.add("fa-pause");
+        audioHandler(index){
+            if(this.currentSong != undefined){
+                if(this.currentSong.paused){
+                    this.currentSong.play();
+                } else if(!this.currentSong.paused){
+                    this.currentSong.pause();
                 }
-            } else if (e.target.classList.contains("fa-pause")){
-                audio.pause();
-                
-                e.target.classList.remove("fa-pause");
-                e.target.classList.add("fa-play");
-            }
-        }
+            } 
+
+            this.currentSong = new Audio(this.tracks[index].preview_url);
+            this.currentSong.volume = 0.2;
+            this.currentSong.play();
+        },
     },
     mounted(){
         axios({
