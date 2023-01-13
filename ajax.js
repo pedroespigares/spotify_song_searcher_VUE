@@ -28,35 +28,32 @@ const { createApp } = Vue
             if(!throwed && !scroll){
                 this.offset = 0;
                 throwed = true;
-
-                axios({
-                    method: 'get',
-                    url: 'https://api.spotify.com/v1/search?q=' + this.busqueda + '&type=track&offset=' + this.offset,
-                    headers: this.headers
-                }).then((data) => {
-                    this.tracks = data.data.tracks.items;
-                })
-                .catch(error => console.log(error));
-                
+                this.ajaxPetition();
                 throwed = false;
                 this.offset += 20;
             }
 
-            if(scroll && !throwed){
+            if(!throwed && scroll){
                 throwed = true;
-                axios({
-                    method: 'get',
-                    url: 'https://api.spotify.com/v1/search?q=' + this.busqueda + '&type=track&offset=' + this.offset,
-                    headers: this.headers
-                }).then((data) => {
-                    this.tracks = this.tracks.concat(data.data.tracks.items);
-                })
-                .catch(error => console.log(error));
-
+                this.ajaxPetition(true);
                 this.offset += 20;
             }
         },
 
+        ajaxPetition(scroll = false){
+            axios({
+                method: 'get',
+                url: 'https://api.spotify.com/v1/search?q=' + this.busqueda + '&type=track&offset=' + this.offset,
+                headers: this.headers
+            }).then((data) => {
+                if(!scroll)
+                    this.tracks = data.data.tracks.items;
+                else
+                    this.tracks = this.tracks.concat(data.data.tracks.items);
+            })
+            .catch(error => console.log(error));
+        },
+        
         clearResults(){
             this.offset = 0;
             this.tracks = undefined;
