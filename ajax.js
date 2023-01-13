@@ -63,18 +63,24 @@ const { createApp } = Vue
             this.busqueda = "";
         },
 
-        audioHandler(index){
-            if(this.currentSong != undefined){
-                if(this.currentSong.paused){
-                    this.currentSong.play();
-                } else if(!this.currentSong.paused){
-                    this.currentSong.pause();
-                }
-            } 
+        audioHandler(index, e){
+            if(this.currentSong == undefined){
+                this.currentSong = new Audio(this.tracks[index].preview_url);
+            } else {
+                this.currentSong.pause();
+                this.currentSong = new Audio(this.tracks[index].preview_url);
+            }
 
-            this.currentSong = new Audio(this.tracks[index].preview_url);
-            this.currentSong.volume = 0.2;
-            this.currentSong.play();
+            if(e.target.classList.contains("fa-play")){
+                this.currentSong.volume = 0.2;
+                this.currentSong.play();
+
+                e.target.classList.remove("fa-play");
+                e.target.classList.add("fa-pause");
+            } else if (e.target.classList.contains("fa-pause")){
+                e.target.classList.remove("fa-pause");
+                e.target.classList.add("fa-play");
+            }
         },
     },
     mounted(){

@@ -36,7 +36,7 @@
                     <a :href="song.external_urls.spotify" target="_blank">Open in Spotify</a>
                 </div>
                 <div class="song--actions">
-                    <button class="playButton"><i  @click="audioHandler(tracks.indexOf(song))" class="fa-solid fa-play"></i></button>
+                    <button class="playButton"><i  @click="audioHandler(tracks.indexOf(song), $event)" class="fa-solid fa-play"></i></button>
                     <audio>
                         <source :src="song.preview_url" type="audio/mpeg">
                     </audio>
