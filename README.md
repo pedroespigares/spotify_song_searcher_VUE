@@ -1,7 +1,11 @@
-# spotify_song_searcher
+# Spotify song searcher
+
+## Production Link
+https://pedroespigares.github.io/spotify_song_searcher_VUE/
+
 A webpage that uses the Spotify API to search songs
 
-Basically the web is a song searcher
+Basically the web is a song searcher created with VueJS
 
 ## This is the neutral page
 ![Captura de pantalla (1)](https://user-images.githubusercontent.com/98234152/204089268-2388461e-9c3c-489a-87a1-008fcefaa024.png)
